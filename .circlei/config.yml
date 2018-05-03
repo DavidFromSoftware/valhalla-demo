@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+      -image:docker:17.05.0-ce-git
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      -run: docker build -t platzi .
+
+      # run tests!
+      -run: docker run platzi npm test
