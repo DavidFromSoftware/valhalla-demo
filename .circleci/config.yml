@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: docker:17.05.0-ce-git
-
+      - image: circleci/node:10.0.0
     steps:
       - checkout
       - setup_remote_docker
@@ -12,3 +12,12 @@ jobs:
 
       # run tests!
       - run: docker run platzi npm test
+
+  deploy-qa:
+    docker:
+      - image: docker:17.05.0-ce-git
+      - image: circleci/node:10.0.0
+    steps:
+      - checkout
+      - run:
+          command: sh deployments/qa.sh
