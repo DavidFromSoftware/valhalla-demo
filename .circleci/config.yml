@@ -21,3 +21,12 @@ jobs:
       - checkout
       - run:
           command: sh deployments/qa.sh
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy-qa:
+          requires:
+            - build
