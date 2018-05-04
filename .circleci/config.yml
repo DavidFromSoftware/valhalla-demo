@@ -20,15 +20,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: npm install -g now
-      - run:
-          command: echo 'Deploying...'
-      - run:
-          command: URL=$(now --docker -t $NOW_TOKEN)
-      - run:
-          command: echo 'running acceptance on $URL'
-      - run:
-          command: curl --silent -L $URL
+          command: sh deployments/qa.sh
 
 workflows:
   version: 2
