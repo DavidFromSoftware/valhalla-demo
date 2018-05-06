@@ -32,9 +32,3 @@ jobs:
       - run: 
         name: Docker Deployment
         command: sh deployments/qa.sh 
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
