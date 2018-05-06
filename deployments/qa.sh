@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
+whoami
 npm install -g now
 echo 'Deploying...'
 URL=$(now --docker -t $NOW_TOKEN)
