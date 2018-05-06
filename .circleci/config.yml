@@ -20,9 +20,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       # run tests!
       - run: docker run platzi npm test
-      - run: 
-        name: Docker Deployment
-        command: sh deployments/qa.sh 
+      - run: sh deployments/qa.sh 
 
   deploy-qa:
     docker:
