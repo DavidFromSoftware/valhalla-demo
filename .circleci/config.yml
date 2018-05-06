@@ -2,39 +2,37 @@ version: 2
 jobs:
   build:
     docker:
-      - image: docker:17.05.0-ce-git
-      - image: circleci/node:10.0.0
+    # specify the version you desire here
+      - image: circleci/node:8.1.0
+    working_directory: ~/repo
     steps:
       - checkout
+      # ... steps for building/testing app ...
       - setup_remote_docker
-
-      - run: docker build -t platzi .
+       # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      # run tests!
-      - run: docker run platzi npm test
+          
+      - run:
+          name: Docker Build
+          command: docker build -t platzi .
 
-  deploy-qa:
-    docker:
-      - image: docker:17.05.0-ce-git
-      - image: circleci/node:10.0.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run: sh deployments/qa.sh 
+      - run:
+          name: Docker Test
+          command: docker run platzi npm test
 
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy-qa:
-          requires:
-            - build
+      - run:
+          name: Docker Run
+          command: docker run -d -p 3000:300 platzi
+
+      - run:
+          name: Docker Deployment
+          command: sh deployments/qa.sh
