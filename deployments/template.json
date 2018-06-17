@@ -4,7 +4,7 @@
 		  "type": "digitalocean",
 		  "api_token": "3b7b5e35e0bdbaaa450fa2464baf2285b125edf6e4790fceca224ddeca15545e",
 		  "image": "ubuntu-16-04-x64",
-		  "snapshot_name": "valhalla-snap03",
+		  "snapshot_name": "valhalla-snapshot-ubuntu",
 		  "region": "nyc1",
 		  "size": "512mb",
 		  "ssh_username": "root"
@@ -13,8 +13,14 @@
 	"provisioners":[
 		{
 			"type": "shell",
+			"script": "install-script.sh"
+		},
+		{
+			"type": "shell",
 			"inline": [
-				"echo 'exito'"
+				"git clone https://github.com/DavidFromSoftware/valhalla-demo.git",
+				"cd valhalla-demo",
+				"docker build -t platzi ."
 			]
 		}
 	]
