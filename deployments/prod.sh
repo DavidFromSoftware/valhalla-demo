@@ -6,6 +6,6 @@ unzip /tmp/terraform.zip -d ~/bin
 ~/bin/packer build deployments/template.json &&
 export TF_VAR_image_id=$(curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $DIGITALOCEAN_API_TOKEN" "https://api.digitalocean.com/v2/images?page=1&per_page=3&private=true" | jq ."images[] | select(.name == \"valhalla-snapshot-ubuntu-$CIRCLE_BUILD_NUM\") | .id" )
 echo $TF_VAR_image_id
-cd infra && ~/bin/terraform apply && cd .. &&
+cd infra && ~/bin/terraform init && ~/bin/terraform apply && cd .. &&
 git add infra && git commit -m "Deployed $CIRCLE_BUILD_NUM [skip ci]" &&
 git push origin master
